@@ -29,9 +29,9 @@ builder.Services.AddSwaggerGen(setup =>
         Title = "OData Methods",
         Version = "v1"
     });
-    setup.SwaggerDoc("v1", new OpenApiInfo()
+    setup.SwaggerDoc("methods_v1", new OpenApiInfo()
     {
-        Title = "WeatherLogR Version 1",
+        Title = "Generic Methods",
         Version = "v1"
     });
 });
@@ -65,7 +65,7 @@ app.UseSwaggerUI(setup =>
     setup.RoutePrefix = "swagger";
     setup.InjectJavascript("/js/custom-swagger.js");
     setup.SwaggerEndpoint("odata/swagger.json", "OData");
-    setup.SwaggerEndpoint("v1/swagger.json", "Methods");
+    setup.SwaggerEndpoint("methods_v1/swagger.json", "Generic Methods");
 
 });
 
