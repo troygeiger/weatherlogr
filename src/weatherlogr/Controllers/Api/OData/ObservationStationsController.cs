@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Attributes;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
+using System.ComponentModel.DataAnnotations;
 using weatherlogr.Core.Contracts.Repositories.WeatherGov;
+using weatherlogr.Core.Contracts.Services;
 using weatherlogr.Core.DTO;
 
 namespace weatherlogr.Controllers.Api.OData;
@@ -14,9 +16,9 @@ namespace weatherlogr.Controllers.Api.OData;
 [ApiExplorerSettings(GroupName = "odata")]
 public class ObservationStationsController : ODataController
 {
-    private readonly IStationLookupRepository repository;
+    private readonly IObservationStationService repository;
 
-    public ObservationStationsController(IStationLookupRepository repository)
+    public ObservationStationsController(IObservationStationService repository)
     {
         this.repository = repository;
     }
@@ -24,8 +26,8 @@ public class ObservationStationsController : ODataController
     [HttpGet]
     [EnableQuery]
     [Produces(typeof(ODataContainer<StationLookupRow>))]
-    public ActionResult Get(string state)
+    public async Task<ActionResult> Get([Required] string state)
     {
-        return Ok(repository.GetStations(state));
+        return Ok(await repository.GetStationsAsync(state));
     }
 }

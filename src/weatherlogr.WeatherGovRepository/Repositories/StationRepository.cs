@@ -6,12 +6,12 @@ using weatherlogr.WeatherGovRepository.Models;
 
 namespace weatherlogr.WeatherGovRepository.Repositories;
 
-public sealed class StationLookupRepository : IStationLookupRepository
+public sealed class StationRepository : IObservationStationRepository
 {
     private readonly WeatherGovRestSharpFactory factory;
     private readonly IMemoryCache cache;
 
-    public StationLookupRepository(WeatherGovRestSharpFactory factory, IMemoryCache cache)
+    public StationRepository(WeatherGovRestSharpFactory factory, IMemoryCache cache)
     {
         this.factory = factory;
         this.cache = cache;

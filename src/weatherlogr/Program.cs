@@ -14,7 +14,7 @@ modelBuilder.EntitySet<StationLookupRow>("ObservationStations");
 builder.Services.AddODataQueryFilter();
 
 // Add services to the container.
-builder.Services.AddControllersWithViews()
+var mvc = builder.Services.AddControllersWithViews()
     .AddOData(options => options.Select().Filter().OrderBy().Count().SetMaxTop(null).AddRouteComponents(
         "odata", modelBuilder.GetEdmModel()));
 
@@ -24,7 +24,8 @@ builder.Services.AddSwaggerGen(setup =>
 {
     setup.OperationFilter<ODataOperationFilter>();
 
-    setup.SwaggerDoc("odata", new(){
+    setup.SwaggerDoc("odata", new()
+    {
         Title = "OData Methods",
         Version = "v1"
     });
@@ -47,6 +48,7 @@ builder.Services.AddWeatherLogR(configOptions);
 
 
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -61,9 +63,10 @@ app.UseSwagger();
 app.UseSwaggerUI(setup =>
 {
     setup.RoutePrefix = "swagger";
+    setup.InjectJavascript("/js/custom-swagger.js");
     setup.SwaggerEndpoint("odata/swagger.json", "OData");
-    setup.SwaggerEndpoint("v1/swagger.json", "Custom Methods");
-    
+    setup.SwaggerEndpoint("v1/swagger.json", "Methods");
+
 });
 
 app.UseHttpsRedirection();

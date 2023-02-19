@@ -2,7 +2,7 @@ using weatherlogr.Core.DTO;
 
 namespace weatherlogr.Core.Contracts.Repositories.WeatherGov;
 
-public interface IStationLookupRepository
+public interface IObservationStationRepository
 {
     IQueryable<StationLookupRow> GetStations(string state);
 }
