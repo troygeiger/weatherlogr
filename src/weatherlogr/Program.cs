@@ -23,6 +23,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(setup =>
 {
     setup.OperationFilter<ODataOperationFilter>();
+    setup.DocumentFilter<ODataMethodGroupDocumentFilter>("methods_v1");
 
     setup.SwaggerDoc("odata", new()
     {

@@ -4,14 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using weatherlogr.Repository.MySql;
 
 #nullable disable
 
 namespace weatherlogr.Repository.MySql.Migrations
 {
     [DbContext(typeof(WeatherContext))]
-    [Migration("20230218174633_Initial")]
-    partial class Initial
+    [Migration("20230220042444_NonNullUnits")]
+    partial class NonNullUnits
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,25 +22,49 @@ namespace weatherlogr.Repository.MySql.Migrations
                 .HasAnnotation("ProductVersion", "7.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("weatherlogr.Repository.MySql.Models.StationCollector", b =>
+                {
+                    b.Property<string>("StationIdentifier")
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)");
+
+                    b.Property<DateTimeOffset?>("LastCollectionEnd")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("PickupCronSchedule")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("StationName")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("varchar(250)");
+
+                    b.HasKey("StationIdentifier");
+
+                    b.ToTable("StationCollector");
+                });
+
             modelBuilder.Entity("weatherlogr.Repository.MySql.Observation", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("BarometricPressureId")
+                    b.Property<long>("BarometricPressureId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("DewPointId")
+                    b.Property<long>("DewPointId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTimeOffset>("EntryDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<long?>("HeatIndexId")
+                    b.Property<long>("HeatIndexId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("HumidityId")
+                    b.Property<long>("HumidityId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("ObsDescription")
@@ -51,19 +76,19 @@ namespace weatherlogr.Repository.MySql.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("varchar(10)");
 
-                    b.Property<long?>("TemperatureId")
+                    b.Property<long>("TemperatureId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("VisibilityId")
+                    b.Property<long>("VisibilityId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("WindChillId")
+                    b.Property<long>("WindChillId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("WindGustId")
+                    b.Property<long>("WindGustId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("WindSpeedId")
+                    b.Property<long>("WindSpeedId")
                         .HasColumnType("bigint");
 
                     b.HasKey("ID");
@@ -75,6 +100,8 @@ namespace weatherlogr.Repository.MySql.Migrations
                     b.HasIndex("HeatIndexId");
 
                     b.HasIndex("HumidityId");
+
+                    b.HasIndex("StationID");
 
                     b.HasIndex("TemperatureId");
 
@@ -130,39 +157,63 @@ namespace weatherlogr.Repository.MySql.Migrations
                 {
                     b.HasOne("weatherlogr.Repository.MySql.UnitValue", "BarometricPressure")
                         .WithMany()
-                        .HasForeignKey("BarometricPressureId");
+                        .HasForeignKey("BarometricPressureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("weatherlogr.Repository.MySql.UnitValue", "DewPoint")
                         .WithMany()
-                        .HasForeignKey("DewPointId");
+                        .HasForeignKey("DewPointId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("weatherlogr.Repository.MySql.UnitValue", "HeatIndex")
                         .WithMany()
-                        .HasForeignKey("HeatIndexId");
+                        .HasForeignKey("HeatIndexId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("weatherlogr.Repository.MySql.UnitValue", "Humidity")
                         .WithMany()
-                        .HasForeignKey("HumidityId");
+                        .HasForeignKey("HumidityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("weatherlogr.Repository.MySql.Models.StationCollector", "Station")
+                        .WithMany()
+                        .HasForeignKey("StationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("weatherlogr.Repository.MySql.UnitValue", "Temperature")
                         .WithMany()
-                        .HasForeignKey("TemperatureId");
+                        .HasForeignKey("TemperatureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("weatherlogr.Repository.MySql.UnitValue", "Visibility")
                         .WithMany()
-                        .HasForeignKey("VisibilityId");
+                        .HasForeignKey("VisibilityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("weatherlogr.Repository.MySql.UnitValue", "WindChill")
                         .WithMany()
-                        .HasForeignKey("WindChillId");
+                        .HasForeignKey("WindChillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("weatherlogr.Repository.MySql.UnitValue", "WindGust")
                         .WithMany()
-                        .HasForeignKey("WindGustId");
+                        .HasForeignKey("WindGustId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("weatherlogr.Repository.MySql.UnitValue", "WindSpeed")
                         .WithMany()
-                        .HasForeignKey("WindSpeedId");
+                        .HasForeignKey("WindSpeedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("BarometricPressure");
 
@@ -171,6 +222,8 @@ namespace weatherlogr.Repository.MySql.Migrations
                     b.Navigation("HeatIndex");
 
                     b.Navigation("Humidity");
+
+                    b.Navigation("Station");
 
                     b.Navigation("Temperature");
 

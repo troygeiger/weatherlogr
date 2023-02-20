@@ -31,6 +31,24 @@ namespace weatherlogr.Repository.MySql.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "StationCollector",
+                columns: table => new
+                {
+                    StationIdentifier = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    StationName = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PickupCronSchedule = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastCollectionEnd = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StationCollector", x => x.StationIdentifier);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "UnitValues",
                 columns: table => new
                 {
@@ -70,6 +88,12 @@ namespace weatherlogr.Repository.MySql.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Observations", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Observations_StationCollector_StationID",
+                        column: x => x.StationID,
+                        principalTable: "StationCollector",
+                        principalColumn: "StationIdentifier",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Observations_UnitValues_BarometricPressureId",
                         column: x => x.BarometricPressureId,
@@ -139,6 +163,11 @@ namespace weatherlogr.Repository.MySql.Migrations
                 column: "HumidityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Observations_StationID",
+                table: "Observations",
+                column: "StationID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Observations_TemperatureId",
                 table: "Observations",
                 column: "TemperatureId");
@@ -172,6 +201,9 @@ namespace weatherlogr.Repository.MySql.Migrations
 
             migrationBuilder.DropTable(
                 name: "RadarIndices");
+
+            migrationBuilder.DropTable(
+                name: "StationCollector");
 
             migrationBuilder.DropTable(
                 name: "UnitValues");
