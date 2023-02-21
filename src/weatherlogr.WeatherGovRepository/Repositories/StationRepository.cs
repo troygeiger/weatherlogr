@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using RestSharp;
 using weatherlogr.Core.Contracts.Repositories.WeatherGov;
+using weatherlogr.Core.Extensions;
 using weatherlogr.Core.DTO;
 using weatherlogr.WeatherGovRepository.Models;
 
@@ -31,20 +32,20 @@ public sealed class StationRepository : IObservationStationRepository
 
             var result = client.Execute<ObservationStationFeatureCollection>(request);
             List<StationLookupRow> returnResults = new();
-            
+
             while (result.IsSuccessful)
             {
                 if (result.Data is null) continue;
 
                 returnResults.AddRange(result.Data.Features
-                .Select(s => s.Properties)
-                .Where(x => x is not null)
-                .Select(p => new StationLookupRow(p!.StationIdentifier, p.Name, p.TimeZone)));
+                    .Select(s => s.Properties)
+                    .Where(x => x is not null)
+                    .Select(p => new StationLookupRow(p!.StationIdentifier, p.Name, p.TimeZone)));
 
                 if (result.Data.Pagination?.Next is null || result.Data.Features.Any() == false) break;
                 string? cursor = result.Data.Pagination.GetCursor();
                 if (cursor is null) break;
-                request.AddOrUpdateParameter("cursor", cursor, ParameterType.QueryString);    
+                request.AddOrUpdateParameter("cursor", cursor, ParameterType.QueryString);
 
                 result = client.Execute<ObservationStationFeatureCollection>(request);
 
