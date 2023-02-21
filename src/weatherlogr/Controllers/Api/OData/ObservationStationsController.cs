@@ -3,18 +3,18 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Attributes;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using weatherlogr.Core.Contracts.Repositories.WeatherGov;
 using weatherlogr.Core.Contracts.Services;
 using weatherlogr.Core.DTO;
+using weatherlogr.CustomAttributes;
 
 namespace weatherlogr.Controllers.Api.OData;
 
-
-//[ApiController]
-//[Route("[controller]")]
-[ApiExplorerSettings(GroupName = "odata")]
-public class ObservationStationsController : ODataController
+[Route("odata")]
+[ODataEdmDefinition(typeof(StationLookupRow), EntitySetName = "ObservationStations(State)")]
+public class ObservationStationsController : ODataControllerBase
 {
     private readonly IObservationStationService repository;
 
@@ -23,11 +23,11 @@ public class ObservationStationsController : ODataController
         this.repository = repository;
     }
 
-    [HttpGet]
+    [HttpGet("ObservationStations({State})")]
     [EnableQuery]
-    [Produces(typeof(ODataContainer<StationLookupRow>))]
-    public async Task<ActionResult> Get([Required] string state)
+    [Produces(typeof(ODataResponseContainer<StationLookupRow>))]
+    public async Task<ActionResult> Get([Required] string State)
     {
-        return Ok(await repository.GetStationsAsync(state));
+        return Ok(await repository.GetStationsAsync(State));
     }
 }

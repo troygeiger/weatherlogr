@@ -1,5 +1,6 @@
 using System.Net.Http.Headers;
 using System.Reflection;
+using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using weatherlogr.Core.Contracts.Repositories;
 using weatherlogr.Core.Contracts.Services;
@@ -16,6 +17,7 @@ public static class CoreServiceCollectionExtensions
         RegisterRepositories(services, options);
 
         services.AddScoped<IObservationStationService, ObservationStationService>();
+        services.AddScoped<IStationCollectorService, StationCollectorService>();
 
         return services;
     }
@@ -49,11 +51,17 @@ public static class CoreServiceCollectionExtensions
 
         weatherGov.RegisterRepositoryServices(services, options);
 
+        MapperConfigurationExpression configExpression = new MapperConfigurationExpression();
+
         foreach (var registration in registrations
             .Where(r => string.Equals(options.StorageRepositoryType, r!.RepositoryType, StringComparison.OrdinalIgnoreCase)))
         {
+            registration!.RegisterAutoMapper(configExpression);
             registration!.RegisterRepositoryServices(services, options);
         }
 
+        MapperConfiguration mapperConfiguration = new(configExpression);
+        mapperConfiguration.CompileMappings();
+        services.AddTransient<IMapper>(p => mapperConfiguration.CreateMapper());
     }
 }

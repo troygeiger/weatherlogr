@@ -3,25 +3,30 @@ using Microsoft.OData.ModelBuilder;
 using Microsoft.OpenApi.Models;
 using weatherlogr.Core;
 using weatherlogr.Core.DTO;
+using weatherlogr.Helpers;
 using weatherlogr.OperationFilters;
 
 var builder = WebApplication.CreateBuilder(args);
-
-var modelBuilder = new ODataConventionModelBuilder();
-modelBuilder.EntityType<StationLookupRow>();
-modelBuilder.EntitySet<StationLookupRow>("ObservationStations");
 
 builder.Services.AddODataQueryFilter();
 
 // Add services to the container.
 var mvc = builder.Services.AddControllersWithViews()
-    .AddOData(options => options.Select().Filter().OrderBy().Count().SetMaxTop(null).AddRouteComponents(
-        "odata", modelBuilder.GetEdmModel()));
+    .AddOData(options =>
+    {
+        options.Select().Filter().OrderBy().Count().SetMaxTop(null).AddRouteComponents(
+        "odata", AutoEdmBuilder.BuildEdmModels());
+        options.EnableAttributeRouting = false;
+    });
 
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(setup =>
 {
+    setup.ResolveConflictingActions(resolve =>
+    {
+        return resolve.First();
+    });
     setup.OperationFilter<ODataOperationFilter>();
     setup.DocumentFilter<ODataMethodGroupDocumentFilter>("methods_v1");
 

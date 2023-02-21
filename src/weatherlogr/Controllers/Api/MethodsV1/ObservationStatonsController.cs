@@ -10,11 +10,8 @@ using weatherlogr.Core.DTO;
 
 namespace weatherlogr.Controllers.Api.MethodsV1
 {
-    [ApiController]
-    [Route("methods_v1/[controller]")]
-    [ApiExplorerSettings(GroupName = "methods_v1")]
-    [Produces("application/json")]
-    public class ObservationStatonsController : ControllerBase
+    
+    public class ObservationStatonsController : MethodControllerBase
     {
         private readonly IObservationStationService service;
 
@@ -25,7 +22,7 @@ namespace weatherlogr.Controllers.Api.MethodsV1
 
         [HttpGet]
         [ProducesResponseType(200)]
-        public async Task<IQueryable<StationLookupRow>> Get([Required] string state)
+        public async Task<IQueryable<StationLookupRow>> GetRows([Required] string state)
         {
             return await service.GetStationsAsync(state);
         }
