@@ -18,9 +18,9 @@ public sealed class StationRepository : IObservationStationRepository
         this.cache = cache;
     }
 
-    public IQueryable<StationLookupRow> GetStations(string state)
+    public IQueryable<ObservationStationRow> GetStations(string state)
     {
-        return cache.GetOrCreate<IQueryable<StationLookupRow>>($"StationLookup_GetStations[{state}]", entry =>
+        return cache.GetOrCreate<IQueryable<ObservationStationRow>>($"StationLookup_GetStations[{state}]", entry =>
         {
             entry.AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(30);
 
@@ -31,7 +31,7 @@ public sealed class StationRepository : IObservationStationRepository
             request.AddQueryParameter("limit", "100");
 
             var result = client.Execute<ObservationStationFeatureCollection>(request);
-            List<StationLookupRow> returnResults = new();
+            List<ObservationStationRow> returnResults = new();
 
             while (result.IsSuccessful)
             {
@@ -40,7 +40,7 @@ public sealed class StationRepository : IObservationStationRepository
                 returnResults.AddRange(result.Data.Features
                     .Select(s => s.Properties)
                     .Where(x => x is not null)
-                    .Select(p => new StationLookupRow(p!.StationIdentifier, p.Name, p.TimeZone)));
+                    .Select(p => new ObservationStationRow(p!.StationIdentifier, p.Name, p.TimeZone)));
 
                 if (result.Data.Pagination?.Next is null || result.Data.Features.Any() == false) break;
                 string? cursor = result.Data.Pagination.GetCursor();
@@ -51,8 +51,8 @@ public sealed class StationRepository : IObservationStationRepository
 
             }
 
-            return returnResults.AsQueryable<StationLookupRow>();
-        }) ?? Array.Empty<StationLookupRow>().AsQueryable();
+            return returnResults.AsQueryable<ObservationStationRow>();
+        }) ?? Array.Empty<ObservationStationRow>().AsQueryable();
     }
 }
 

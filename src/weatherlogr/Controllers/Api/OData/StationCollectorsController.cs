@@ -13,11 +13,11 @@ namespace weatherlogr.Controllers.Api.OData
 {
     [Route("odata/StationCollectors")]
     [ODataEdmDefinition(typeof(StationCollectorRow), EntitySetName = "StationCollectors")]
-    public class StationCollectorsControllers : ODataControllerBase
+    public class StationCollectorsController : ODataControllerBase
     {
         private readonly IStationCollectorService collectorService;
 
-        public StationCollectorsControllers(IStationCollectorService collectorService)
+        public StationCollectorsController(IStationCollectorService collectorService)
         {
             this.collectorService = collectorService;
         }

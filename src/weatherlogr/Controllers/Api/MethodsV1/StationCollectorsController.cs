@@ -17,7 +17,7 @@ namespace weatherlogr.Controllers.Api.MethodsV1
             this.collectorService = collectorService;
         }
 
-        [HttpGet("(StationIdentifier)")]
+        [HttpGet("~/[controller]/[action]({StationIdentifier})")]
         public async Task<StationCollectorRow?> GetStationCollector([FromRoute] string stationIdentifier)
         {
             return await collectorService.GetStationCollector(stationIdentifier);

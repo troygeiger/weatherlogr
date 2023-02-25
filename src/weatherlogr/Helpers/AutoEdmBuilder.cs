@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
+using weatherlogr.Core.DTO;
 using weatherlogr.CustomAttributes;
 
 namespace weatherlogr.Helpers

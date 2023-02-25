@@ -9,9 +9,9 @@ namespace weatherlogr.Core.Contracts.Services
 {
     public interface IObservationStationService
     {
-        IQueryable<StationLookupRow> GetStations(string state);
+        IQueryable<ObservationStationRow> GetStations(string state);
 
-        Task<IQueryable<StationLookupRow>> GetStationsAsync(string state);
+        Task<IQueryable<ObservationStationRow>> GetStationsAsync(string state);
 
     }
 }

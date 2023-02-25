@@ -19,7 +19,7 @@ namespace weatherlogr.OperationFilters
         {
             if (context.DocumentName != documentToFilter)
                 return;
-            foreach (string key in swaggerDoc.Paths.Select(p => p.Key).Where(p => p.Contains(documentToFilter) == false))
+            foreach (string key in swaggerDoc.Paths.Select(p => p.Key).Where(p => p.Contains("odata")))
             {
                 swaggerDoc.Paths.Remove(key);
             }

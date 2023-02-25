@@ -16,7 +16,7 @@ var mvc = builder.Services.AddControllersWithViews()
     {
         options.Select().Filter().OrderBy().Count().SetMaxTop(null).AddRouteComponents(
         "odata", AutoEdmBuilder.BuildEdmModels());
-        options.EnableAttributeRouting = false;
+        options.UrlKeyDelimiter = Microsoft.OData.ODataUrlKeyDelimiter.Parentheses;
     });
 
 
@@ -74,6 +74,7 @@ app.UseSwaggerUI(setup =>
     setup.SwaggerEndpoint("methods_v1/swagger.json", "Generic Methods");
 
 });
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

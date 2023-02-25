@@ -18,12 +18,12 @@ namespace weatherlogr.Core.Services
             this.repository = repository;
         }
 
-        public IQueryable<StationLookupRow> GetStations(string state)
+        public IQueryable<ObservationStationRow> GetStations(string state)
         {
             return repository.GetStations(state);
         }
 
-        public Task<IQueryable<StationLookupRow>> GetStationsAsync(string state)
+        public Task<IQueryable<ObservationStationRow>> GetStationsAsync(string state)
         => Task.Run(() => GetStations(state));
     }
 }
