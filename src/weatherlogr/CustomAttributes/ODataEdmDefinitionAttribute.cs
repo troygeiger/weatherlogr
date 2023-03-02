@@ -8,7 +8,7 @@ public class ODataEdmDefinitionAttribute : Attribute
         this.EntityType = entityType;
     }
     
-    public string EntitySetName { get; set; }
+    public string? EntitySetName { get; set; }
 
     public Type EntityType { get; set; }
 }

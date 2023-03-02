@@ -1,10 +1,13 @@
 {
     "cSpell.words": [
+        "stylesheet",
+        "tbody",
+        "thead",
         "weatherlogr"
     ],
     "explorer.excludeGitIgnore": false,
     "files.exclude": {
-        "**/appsettings.Development.json":false,
+        "**/appsettings.Development.json": false,
         "**/.git": true,
         "**/.svn": true,
         "**/.hg": true,
@@ -13,5 +16,8 @@
         "**/Thumbs.db": true,
         "**/bin": true,
         "**/obj": true
-    }
+    },
+    "cSpell.enableFiletypes": [
+        "aspnetcorerazor"
+    ]
 }

@@ -18,7 +18,7 @@ var mvc = builder.Services.AddControllersWithViews()
         "odata", AutoEdmBuilder.BuildEdmModels());
         options.UrlKeyDelimiter = Microsoft.OData.ODataUrlKeyDelimiter.Parentheses;
     });
-
+mvc.AddRazorRuntimeCompilation();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(setup =>

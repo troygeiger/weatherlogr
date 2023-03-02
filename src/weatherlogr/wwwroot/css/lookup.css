@@ -1,0 +1,20 @@
+.lookup-popup {
+    position: absolute;
+    border-radius: 4px;
+    border: 1px solid dimgray;
+    overflow-y: auto;
+    overflow-x: hidden;
+    white-space: nowrap;
+    box-shadow: 4px 4px 4px rgb(148, 148, 148);
+}
+
+.lookup-item {
+    border: .5px solid lightgray;
+    cursor: pointer;
+    padding: 4px 8px;
+    
+}
+
+.lookup-item:hover, .lookup-item-highlight{
+    background-color: rgb(123, 147, 255);
+}
