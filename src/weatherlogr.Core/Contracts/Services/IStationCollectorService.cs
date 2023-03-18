@@ -17,5 +17,6 @@ namespace weatherlogr.Core.Contracts.Services
         Task<StationCollectorRow> UpdateStationAsync(StationCollectorRow item);
 
         Task DeleteStationCollectorAsync(StationCollectorRow item);
+
     }
 }

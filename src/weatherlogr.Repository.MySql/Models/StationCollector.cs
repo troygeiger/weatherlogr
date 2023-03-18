@@ -8,22 +8,12 @@ namespace weatherlogr.Repository.MySql.Models
 {
     public sealed class StationCollector
     {
-        public StationCollector()
-        {
-            StationIdentifier = string.Empty;
-            StationName = string.Empty;
-            PickupCronSchedule = string.Empty;
-        }
-
         [Key]
         [MaxLength(10)]
-        public string StationIdentifier { get; set; }
+        public string StationIdentifier { get; set; } = string.Empty;
 
         [MaxLength(250)]
-        public string StationName { get; set; }
-
-        [MaxLength(200)]
-        public string PickupCronSchedule { get; set; }
+        public string StationName { get; set; } = string.Empty;
 
         public DateTimeOffset? LastCollectionEnd { get; set; }
     }

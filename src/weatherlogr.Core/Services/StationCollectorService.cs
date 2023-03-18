@@ -42,5 +42,6 @@ namespace weatherlogr.Core.Services
         {
             return await repository.UpdateItemAsync(item);
         }
+
     }
 }

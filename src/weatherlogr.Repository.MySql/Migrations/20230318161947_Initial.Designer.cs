@@ -11,8 +11,8 @@ using weatherlogr.Repository.MySql;
 namespace weatherlogr.Repository.MySql.Migrations
 {
     [DbContext(typeof(WeatherContext))]
-    [Migration("20230225192431_RemovesUnitValue")]
-    partial class RemovesUnitValue
+    [Migration("20230318161947_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,6 +22,36 @@ namespace weatherlogr.Repository.MySql.Migrations
                 .HasAnnotation("ProductVersion", "7.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("weatherlogr.Repository.MySql.Models.ObjectProperty", b =>
+                {
+                    b.Property<string>("ClassName")
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512)");
+
+                    b.Property<string>("EntryName")
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
+
+                    b.Property<bool?>("BoolValue")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<decimal?>("DecimalValue")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<int?>("IntValue")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("LongValue")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("StringValue")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("ClassName", "EntryName");
+
+                    b.ToTable("ObjectProperties");
+                });
+
             modelBuilder.Entity("weatherlogr.Repository.MySql.Models.StationCollector", b =>
                 {
                     b.Property<string>("StationIdentifier")
@@ -30,11 +60,6 @@ namespace weatherlogr.Repository.MySql.Migrations
 
                     b.Property<DateTimeOffset?>("LastCollectionEnd")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<string>("PickupCronSchedule")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("StationName")
                         .IsRequired()

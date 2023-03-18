@@ -12,11 +12,14 @@ public class WeatherContext : DbContext
         StationCollectors = Set<StationCollector>();
         Observations = Set<Observation>();
         RadarIndices = Set<RadarIndex>();
+        ObjectProperties = Set<ObjectProperty>();
     }
 
-    public DbSet<StationCollector> StationCollectors{get;set;}
+    public DbSet<StationCollector> StationCollectors { get; set; }
 
     public DbSet<Observation> Observations { get; set; }
 
     public DbSet<RadarIndex> RadarIndices { get; set; }
+
+    public DbSet<ObjectProperty> ObjectProperties { get; set; }
 }

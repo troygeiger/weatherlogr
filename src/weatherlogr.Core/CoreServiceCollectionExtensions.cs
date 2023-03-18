@@ -16,11 +16,12 @@ public static class CoreServiceCollectionExtensions
 
         RegisterRepositories(services, options);
 
+        services.AddSingleton<ISystemConfigurationService, SystemConfigurationService>();
         services.AddSingleton<HostedServiceMessaging>();
         
         services.AddScoped<IObservationStationService, ObservationStationService>();
         services.AddScoped<IStationCollectorService, StationCollectorService>();
-
+        
         return services;
     }
 

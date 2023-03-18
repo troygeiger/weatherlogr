@@ -69,3 +69,15 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+
+.max-300 {
+  max-width: 300px;
+}
+
+.min-300 {
+  min-width: 300px;
+}
+
+.w-300 {
+  width: 300px;
+}

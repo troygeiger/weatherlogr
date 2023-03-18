@@ -1,0 +1,26 @@
+@model weatherlogr.Core.DTO.SystemConfigurationEntry
+@{
+    ViewData["Title"] = "System Configuration";
+}
+
+@section Scripts
+{
+    <script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-controller="SystemConfiguration" asp-action="Index">
+
+    <div class="row">
+        <div class="col">
+            <label asp-for="PickupSchedule" class="form-label">CRON Pickup Schedule</label>
+            <input type="text" class="form-control w-300" asp-for="PickupSchedule" />
+            <span asp-validation-for="PickupSchedule" class="text-danger"></span>
+        </div>
+        @await Html.PartialAsync("_CronPartial")
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+

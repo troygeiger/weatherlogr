@@ -28,5 +28,6 @@ public sealed class Registration : IRepositoryRegistration
         });
 
         services.AddScoped<IStationCollectorRepository, StationCollectorRepository>();
+        services.AddScoped<IConfigurationRepository, ConfigurationRepository>();
     }
 }
