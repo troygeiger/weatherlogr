@@ -8,7 +8,6 @@ public sealed class StationCollectorRow
         {
             StationIdentifier = string.Empty;
             StationName = string.Empty;
-            PickupCronSchedule = string.Empty;
         }
 
         [Key]
@@ -17,10 +16,6 @@ public sealed class StationCollectorRow
 
         [MaxLength(250)]
         public string StationName { get; set; }
-
-        [MaxLength(200)]
-        [Required]
-        public string PickupCronSchedule { get; set; }
 
         public DateTimeOffset? LastCollectionEnd { get; set; }
 }
