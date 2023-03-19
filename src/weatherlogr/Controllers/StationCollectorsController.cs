@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -10,18 +11,21 @@ namespace weatherlogr.Controllers;
 public sealed class StationCollectorsController : Controller
 {
     private readonly IStationCollectorService stationCollectorService;
+    private readonly IObservationStationService observationStationService;
     private readonly HostedServiceMessaging serviceMessaging;
 
     public StationCollectorsController(IStationCollectorService stationCollectorService,
+                                       IObservationStationService observationStationService,
                                        HostedServiceMessaging serviceMessaging)
     {
         this.stationCollectorService = stationCollectorService;
+        this.observationStationService = observationStationService;
         this.serviceMessaging = serviceMessaging;
     }
 
     public async Task<IActionResult> Index()
     {
-        return View(model: await stationCollectorService.AsQueryable().ToArrayAsync());
+        return View(model: await stationCollectorService.GetAll());
     }
 
     [HttpGet]
@@ -30,26 +34,53 @@ public sealed class StationCollectorsController : Controller
         return View();
     }
 
-    [HttpGet]
-    public IActionResult EditStation(string id)
+    [HttpPost]
+    public async Task<IActionResult> AddStation(StationCollectorRow station)
     {
-        return View(model: stationCollectorService.AsQueryable()
-            .FirstOrDefault(s=>s.StationIdentifier == id));
+        if (!ModelState.IsValid)
+            return View(station);
+        var existing = await stationCollectorService.GetStationCollectorAsync(station.StationIdentifier);
+        if (existing is not null)
+        {
+            ModelState.AddModelError(nameof(StationCollectorRow.StationIdentifier), "Station already exists!");
+            return View(station);
+        }
+        await stationCollectorService.AddNewStationAsync(station);
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
+    public async Task<IEnumerable<QueryResult>> LookupStations(string state, string query, int maxResults = 30)
+    {
+        if (string.IsNullOrEmpty(state))
+            return Array.Empty<QueryResult>();
+
+        return (await observationStationService.GetStationsAsync(state))
+            .Where(s => s.StationIdentifier.StartsWith(query, StringComparison.OrdinalIgnoreCase)
+                || s.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
+            .Take(maxResults)
+            .Select(s => new QueryResult()
+            {
+                Value = s.StationIdentifier,
+                Name = s.Name,
+                DisplayValue = $"{s.StationIdentifier} ({s.Name})"
+            });
     }
 
     [HttpPost]
-    public IActionResult EditStation([FromRoute] string id, StationCollectorRow station)
+    public async Task<IActionResult> DeleteStation(string stationIdentifier)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(model: station);
-        }
-
-        return RedirectToAction("Index");
+        bool result = await stationCollectorService.DeleteStationCollectorAsync(stationIdentifier);
+        return result ? Ok() : NotFound();
     }
+
 }
 
-class QueryResult
+public class QueryResult
 {
-    public string? Value{get;set;}
+    public string? Value { get; set; }
+
+    public string? Name { get; set; }
+
+    public string? DisplayValue { get; set; }
 }

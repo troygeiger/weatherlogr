@@ -5,6 +5,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     white-space: nowrap;
+    z-index: 99999;
     box-shadow: 4px 4px 4px rgb(148, 148, 148);
 }
 

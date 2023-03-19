@@ -16,5 +16,21 @@ namespace weatherlogr.Core.Extensions
                 yield return item;
             }
         }
+
+        public static Task<T[]> ToArrayAsync<T>(this IEnumerable<T> en) => ToArrayAsync<T>(en, CancellationToken.None);
+
+        public static Task<T[]> ToArrayAsync<T>(this IEnumerable<T> en, CancellationToken token)
+        {
+            return Task.Run(() =>
+            {
+                List<T> items = new List<T>();
+                foreach(T item in en)
+                {
+                    if (token.IsCancellationRequested) break;
+                    items.Add(item);
+                }
+                return items.ToArray();
+            });
+        }
     }
 }

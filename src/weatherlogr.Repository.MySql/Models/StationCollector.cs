@@ -15,6 +15,9 @@ namespace weatherlogr.Repository.MySql.Models
         [MaxLength(250)]
         public string StationName { get; set; } = string.Empty;
 
+        [MaxLength(2)]
+        public string State { get; set; } = string.Empty;
+
         public DateTimeOffset? LastCollectionEnd { get; set; }
     }
 }

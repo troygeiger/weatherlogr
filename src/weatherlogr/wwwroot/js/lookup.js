@@ -22,13 +22,16 @@
                 visible: false,
                 maxVisible: 10,
                 data: {
-                    displayValue: undefined,
+                    displayValue: "displayValue",
+                    valueProperty: "value",
                     url: undefined,
-                    maxResults: undefined
+                    maxResults: undefined,
+                    parameterAction: function () { }
                 },
-                onSelectionChanged: undefined
+                onSelectionChanged: undefined,
+                beforeLookup: undefined // function(){return true;}
             }, options);
-            
+
             var factory = {
                 keyCodes: {
                     up: 38,
@@ -88,9 +91,13 @@
                         factory._refresh();
                     }
                 },
-                _validateOptions: function(){
+                _validateOptions: function () {
                     if (options.maxVisible <= 1)
                         options.maxVisible = 2;
+                    if (!options.data.displayValue)
+                        options.data.displayValue = "displayValue";
+                    if (!options.data.valueProperty)
+                        options.data.valueProperty = "value";
                 },
                 _refresh: function () {
 
@@ -111,12 +118,25 @@
                 },
                 _doLookup: function () {
                     if (!options.data.url) return;
+                    if (typeof (options.beforeLookup) === "function") {
+                        if (!options.beforeLookup(options))
+                            return;
+                    }
                     var value = factory.owner.val();
                     factory.data = undefined;
                     if (!value || factory.selectedItem) return;
                     var data = { query: value };
                     if (options.data.maxResults)
                         data.maxResults = options.data.maxResults;
+                    if (options.data.parameterAction && typeof (options.data.parameterAction) === "function") {
+                        var result = options.data.parameterAction();
+                        if (result && typeof (result) === "object") {
+                            for (var p in result) {
+                                data[p] = result[p];
+                            }
+                        }
+                    }
+
                     $.getJSON(options.data.url, data, function (data) {
                         factory.data = data;
                         factory._populateResults();
@@ -155,9 +175,12 @@
                     factory.selectedItem = item;
                     factory._setVisibility(false);
                     if (item)
-                        factory.owner.val(item[options.data.displayValue]);
+                        factory.owner.val(item[options.data.valueProperty]);
+                    else {
+                        factory.owner.val(undefined);
+                    }
                     if (typeof options.onSelectionChanged === "function") {
-                        options.onSelectionChanged(item);
+                        options.onSelectionChanged(item, options);
                     }
                 },
                 _updateHighlighted: function (key) {
@@ -196,7 +219,7 @@
             };
             factory._validateOptions();
             factory._init();
-            
+
             // Store instance
             this[0].lookup = this;
             return this;

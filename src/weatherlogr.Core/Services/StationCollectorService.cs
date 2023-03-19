@@ -28,14 +28,19 @@ namespace weatherlogr.Core.Services
             return repository.QueryStorage();
         }
 
+        public async Task<StationCollectorRow[]> GetAll()
+        {
+            return await repository.QueryStorage().ToArrayAsync();
+        }
+
         public async Task DeleteStationCollectorAsync(StationCollectorRow item)
         {
             await repository.DeleteItemAsync(item);
         }
 
-        public async Task<StationCollectorRow?> GetStationCollector(string stationIdentifier)
+        public async Task<StationCollectorRow?> GetStationCollectorAsync(string stationIdentifier)
         {
-            return await repository.QueryStorage().FirstOrDefaultAsync(s=>s.StationIdentifier == stationIdentifier);
+            return await repository.QueryStorage().FirstOrDefaultAsync(s => s.StationIdentifier == stationIdentifier);
         }
 
         public async Task<StationCollectorRow> UpdateStationAsync(StationCollectorRow item)
@@ -43,5 +48,13 @@ namespace weatherlogr.Core.Services
             return await repository.UpdateItemAsync(item);
         }
 
+        public async Task<bool> DeleteStationCollectorAsync(string stationIdentifier)
+        {
+            var station = await GetStationCollectorAsync(stationIdentifier);
+            if (station is null)
+                return false;
+            await repository.DeleteItemAsync(station);
+            return true;
+        }
     }
 }

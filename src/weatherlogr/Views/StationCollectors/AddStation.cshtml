@@ -1,0 +1,39 @@
+@model weatherlogr.Core.DTO.StationCollectorRow
+@{
+    ViewData["Title"] = "Add Station";
+}
+@section head
+    {
+    <link rel="stylesheet" href="/css/lookup.css" asp-append-version="true" />
+}
+
+@section Scripts
+{
+    <script src="/js/lookup.js" asp-append-version="true"></script>
+    <script src="/js/collectors.js" asp-append-version="true"></script>
+    <script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+}
+
+
+<form asp-action="AddStation">
+    <div class="mb-3">
+        <label asp-for="State" class="form-label">State</label>
+        <select asp-for="State" class="form-control w-300">
+            <option value="">Select a State</option>
+            @foreach (var item in weatherlogr.Core.DTO.StationCollectorRow.GetAvailableStates())
+            {
+                <option value="@item.Key">@item.Value</option>
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="StationIdentifier" class="form-label">Station</label>
+        <input class="form-control w-300" asp-for="StationIdentifier" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="StationName" class="form-label">Station Name</label>
+        <input class="form-control w-300" asp-for="StationName" readonly />
+    </div>
+
+    <button id="AddButton" type="submit" class="btn btn-primary" disabled>Add</button>
+</form>
