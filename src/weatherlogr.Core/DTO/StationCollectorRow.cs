@@ -9,6 +9,7 @@ public sealed class StationCollectorRow
         StationIdentifier = string.Empty;
         StationName = string.Empty;
         State = string.Empty;
+        TimeZone = string.Empty;
     }
 
     [Key]
@@ -23,6 +24,10 @@ public sealed class StationCollectorRow
     [MaxLength(2)]
     [Required]
     public string State { get; set; }
+
+    [MaxLength(100)]
+    [Required]
+    public string TimeZone { get; set; }
 
     public DateTimeOffset? LastCollectionEnd { get; set; }
 

@@ -63,6 +63,7 @@ public sealed class StationCollectorsController : Controller
             {
                 Value = s.StationIdentifier,
                 Name = s.Name,
+                TimeZone = s.TimeZone,
                 DisplayValue = $"{s.StationIdentifier} ({s.Name})"
             });
     }
@@ -83,4 +84,6 @@ public class QueryResult
     public string? Name { get; set; }
 
     public string? DisplayValue { get; set; }
+
+    public string? TimeZone { get; set; }
 }

@@ -4,6 +4,8 @@
     var stateElement = $("#State");
     
     var stationName = $("#StationName");
+    var timezone = $("#TimeZone");
+
     var addBtn = $("#AddButton");
     var stationLookup = $("#StationIdentifier").lookup({
         data: {
@@ -15,10 +17,12 @@
         onSelectionChanged: function (value, opt) {
             if (value) {
                 stationName.val(value.name);
+                timezone.val(value.timeZone);
                 addBtn.removeAttr("disabled");
             }
             else {
                 stationName.val("");
+                timezone.val("");
                 addBtn.attr("disabled", "");
             }
         },

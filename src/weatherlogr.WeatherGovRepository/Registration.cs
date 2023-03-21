@@ -20,5 +20,6 @@ public class Registration : IRepositoryRegistration
         services.AddSingleton<WeatherGovRestSharpFactory>();
 
         services.AddTransient<IObservationStationRepository, StationRepository>();
+        services.AddTransient<IStationObservationsRepository, StationObservationRepository>();
     }
 }

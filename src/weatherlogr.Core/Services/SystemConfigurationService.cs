@@ -13,9 +13,11 @@ namespace weatherlogr.Core.Services
     {
         SystemConfigurationEntry? entry;
         private readonly IServiceProvider serviceProvider;
+        private readonly HostedServiceMessaging serviceMessaging;
 
-        public SystemConfigurationService(IServiceProvider serviceProvider)
+        public SystemConfigurationService(IServiceProvider serviceProvider, HostedServiceMessaging serviceMessaging)
         {
+            this.serviceMessaging = serviceMessaging;
             this.serviceProvider = serviceProvider;
             
         }
@@ -47,6 +49,7 @@ namespace weatherlogr.Core.Services
                     return;
 
                 repository.SaveValue(Configuration);
+                serviceMessaging.ShouldReloadSystemConfiguration = true;
             }
         }
 

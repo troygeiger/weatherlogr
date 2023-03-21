@@ -17,6 +17,7 @@ public sealed class Registration : IRepositoryRegistration
     public void RegisterAutoMapper(MapperConfigurationExpression mapConfig)
     {
         mapConfig.CreateMap<StationCollector, StationCollectorRow>().ReverseMap();
+        mapConfig.CreateMap<Observation, ObservationRow>().ReverseMap();
     }
 
     public void RegisterRepositoryServices(IServiceCollection services, ConfigurationOptions configOptions)
@@ -29,5 +30,6 @@ public sealed class Registration : IRepositoryRegistration
 
         services.AddScoped<IStationCollectorRepository, StationCollectorRepository>();
         services.AddScoped<IConfigurationRepository, ConfigurationRepository>();
+        services.AddScoped<IObservationRepository, ObservationRepository>();
     }
 }

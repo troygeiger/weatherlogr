@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using weatherlogr.Core.Contracts.Repositories;
 using weatherlogr.Core.Contracts.Services;
 using weatherlogr.Core.Services;
+using weatherlogr.Core.Services.Hosted;
 
 namespace weatherlogr.Core;
 
@@ -21,7 +22,10 @@ public static class CoreServiceCollectionExtensions
         
         services.AddScoped<IObservationStationService, ObservationStationService>();
         services.AddScoped<IStationCollectorService, StationCollectorService>();
+        services.AddScoped<IObservationService, ObservationService>();
         
+        services.AddHostedService<ObservationCollectorService>();
+
         return services;
     }
 

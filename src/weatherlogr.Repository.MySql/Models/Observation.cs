@@ -9,7 +9,6 @@ public sealed class Observation
 {
     public Observation()
     {
-        Station = new();
         StationID = string.Empty;
     }
 
@@ -18,7 +17,7 @@ public sealed class Observation
 
     public DateTimeOffset EntryDate { get; set; }
 
-    public StationCollector Station { get; set; }
+    public StationCollector? Station { get; set; }
 
     [MaxLength(10)]
     public string StationID { get; set; }
