@@ -6,7 +6,16 @@ using weatherlogr.Core.DTO;
 using weatherlogr.Helpers;
 using weatherlogr.OperationFilters;
 
+
 var builder = WebApplication.CreateBuilder(args);
+string ?configFile;
+if ((configFile = builder.Configuration.GetValue<string?>("configfile")) is not null)
+{
+    builder.Configuration.AddJsonFile(configFile);
+}
+#if Linux
+builder.Services.AddSystemd();
+#endif
 
 builder.Services.AddODataQueryFilter();
 
@@ -43,16 +52,12 @@ builder.Services.AddSwaggerGen(setup =>
 });
 
 
-
-
 var configOptions = builder.Configuration.GetSection("ConfigOptions").Get<ConfigurationOptions>();
 
 if (configOptions is null)
     throw new ArgumentNullException("ConfigOptions was not found in Configurations!");
 
 builder.Services.AddWeatherLogR(configOptions);
-
-
 
 
 var app = builder.Build();

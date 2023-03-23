@@ -4,6 +4,9 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+ <PropertyGroup Condition="'$(Configuration)'=='Linux'">
+  <DefineConstants>Linux</DefineConstants>
+ </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.12" />
@@ -13,5 +16,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
   </ItemGroup>
+ <ItemGroup Condition="'$(Configuration)'=='Linux'">
+  <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0" />
+ </ItemGroup>
 
 </Project>

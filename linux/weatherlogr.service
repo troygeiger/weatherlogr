@@ -1,0 +1,13 @@
+[Unit]
+Description = WeatherLogR service for logging conditions to database
+After=network.target mysqld.service
+
+[Service]
+Type=notify
+WorkingDirectory=/usr/share/weatherlogr
+Environment=CONFIGFILE=/etc/weatherlogr/appsettings.json ASPNETCORE_ENVIRONMENT=Production 
+ExecStart=/usr/sbin/weatherlogr
+SyslogIdentifier=weatherlogr
+
+[Install]
+WantedBy=multi-user.target
