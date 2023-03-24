@@ -5,9 +5,10 @@ After=network.target mysqld.service
 [Service]
 Type=notify
 WorkingDirectory=/usr/share/weatherlogr
-Environment=CONFIGFILE=/etc/weatherlogr/appsettings.json ASPNETCORE_ENVIRONMENT=Production 
+Environment=CONFIGFILE=/etc/weatherlogr/appsettings.json ASPNETCORE_ENVIRONMENT=Production ASPNETCORE_URLS=http://*:5000;
 ExecStart=/usr/sbin/weatherlogr
 SyslogIdentifier=weatherlogr
+User=www-data
 
 [Install]
 WantedBy=multi-user.target
