@@ -5,7 +5,7 @@ where TDto : class
 {
     bool AutoSaveChanges { get; set; }
 
-    IQueryable<TDto> QueryStorage();
+    IQueryable<TDto> AsQueryable();
 
     TDto AddNewItem(TDto item);
 

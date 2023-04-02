@@ -10,13 +10,25 @@ namespace weatherlogr.Core.Contracts.Services
     {
         bool AutoSaveChanges { get; set; }
 
-        Task<IQueryable<ObservationRow>> QueryObservations();
+        Task<ObservationRow> AddObservation(ObservationRow observation,
+                                            CancellationToken cancellationToken = default);
 
-        Task<ObservationRow> AddObservation(ObservationRow observation, CancellationToken cancellationToken = default);
+        Task<bool> AddObservationRangeAsync(IEnumerable<ObservationRow> observations,
+                                            CancellationToken cancellationToken = default);
 
-        Task<bool> AddObservationRangeAsync(IEnumerable<ObservationRow> observations, CancellationToken cancellationToken = default);
+        Task<IEnumerable<ObservationRow>> GetAllStationObservations(string stationIdentifier,
+                                                                    CancellationToken cancellationToken = default);
+        
+        Task<IEnumerable<ObservationRow>> GetStationObservations(string stationIdentifier,
+                                                                 DateTime start,
+                                                                 DateTime end);
+        
+        Task<IEnumerable<ObservationRow>> GetStationObservations(string stationIdentifier,
+                                                                 DateTime start,
+                                                                 DateTime end,
+                                                                 CancellationToken cancellationToken = default);
 
-        Task<IEnumerable<ObservationRow>> GetStationObservations(string stationIdentifier, CancellationToken cancellationToken = default);
+        IQueryable<ObservationRow> QueryObservations();
 
         Task SaveChangesAsync();
 

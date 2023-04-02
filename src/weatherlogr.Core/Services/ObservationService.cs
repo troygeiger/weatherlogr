@@ -39,7 +39,7 @@ namespace weatherlogr.Core.Services
             }
             catch (System.Exception)
             {
-                
+
                 return false;
             }
             finally
@@ -49,24 +49,40 @@ namespace weatherlogr.Core.Services
             return true;
         }
 
-        public async Task<IEnumerable<ObservationRow>> GetStationObservations(string stationIdentifier, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<ObservationRow>> GetAllStationObservations(string stationIdentifier, CancellationToken cancellationToken = default)
         {
-            return await observationsRepo.QueryStorage().Where(o=>o.StationID == stationIdentifier).ToArrayAsync(cancellationToken);
+            return await observationsRepo
+                .AsQueryable()
+                .Where(o => o.StationID == stationIdentifier)
+                .ToArrayAsync(cancellationToken);
         }
 
-        public Task<IQueryable<ObservationRow>> QueryObservations()
+        public Task<IEnumerable<ObservationRow>> GetStationObservations(string stationIdentifier, DateTime start, DateTime end)
         {
-            throw new NotImplementedException();
+            return GetStationObservations(stationIdentifier, start, end, default);
         }
 
-        public Task SaveChangesAsync()
+        public async Task<IEnumerable<ObservationRow>> GetStationObservations(string stationIdentifier, DateTime start, DateTime end, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await observationsRepo
+                .AsQueryable()
+                .Where(o => o.StationID == stationIdentifier && o.EntryDate >= start && o.EntryDate <= end)
+                .ToArrayAsync(cancellationToken);
         }
 
-        public Task SaveChangesAsync(CancellationToken cancellationToken)
+        public IQueryable<ObservationRow> QueryObservations()
         {
-            throw new NotImplementedException();
+            return observationsRepo.AsQueryable();
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await observationsRepo.SaveChangesAsync();
+        }
+
+        public async Task SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            await observationsRepo.SaveChangesAsync(cancellationToken);
         }
     }
 }

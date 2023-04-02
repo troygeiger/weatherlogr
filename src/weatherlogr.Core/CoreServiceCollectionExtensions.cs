@@ -19,13 +19,14 @@ public static class CoreServiceCollectionExtensions
 
         services.AddSingleton<ISystemConfigurationService, SystemConfigurationService>();
         services.AddSingleton<HostedServiceMessaging>();
-        
+
         services.AddScoped<IObservationStationService, ObservationStationService>();
         services.AddScoped<IStationCollectorService, StationCollectorService>();
         services.AddScoped<IObservationService, ObservationService>();
-        
-        services.AddHostedService<ObservationCollectorService>();
 
+#if !DEBUG
+        services.AddHostedService<ObservationCollectorService>();
+#endif
         return services;
     }
 

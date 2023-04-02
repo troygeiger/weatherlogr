@@ -1,0 +1,1 @@
+Date.prototype.addDays=function(t){var e=new Date(this.valueOf());return e.setDate(e.getDate()+t),e},Date.prototype.toShortDate=function(){var t=new Date(this.valueOf()),e=("0"+t.getDate()).slice(-2),a=("0"+(t.getMonth()+1)).slice(-2);return t.getFullYear()+"-"+a+"-"+e};

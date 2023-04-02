@@ -80,7 +80,7 @@ public abstract class EFRepositoryBase<TDto, TEntity> : ICrudBase<TDto>
             await context.SaveChangesAsync(cancellationToken);
     }
 
-    public IQueryable<TDto> QueryStorage()
+    public IQueryable<TDto> AsQueryable()
     {
         return mapper.ProjectTo<TDto>(DbSet);
     }

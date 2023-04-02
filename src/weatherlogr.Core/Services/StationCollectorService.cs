@@ -25,12 +25,12 @@ namespace weatherlogr.Core.Services
 
         public IQueryable<StationCollectorRow> AsQueryable()
         {
-            return repository.QueryStorage();
+            return repository.AsQueryable();
         }
 
         public async Task<StationCollectorRow[]> GetAll()
         {
-            return await repository.QueryStorage().ToArrayAsync();
+            return await repository.AsQueryable().ToArrayAsync();
         }
 
         public async Task DeleteStationCollectorAsync(StationCollectorRow item)
@@ -40,7 +40,7 @@ namespace weatherlogr.Core.Services
 
         public async Task<StationCollectorRow?> GetStationCollectorAsync(string stationIdentifier)
         {
-            return await repository.QueryStorage().FirstOrDefaultAsync(s => s.StationIdentifier == stationIdentifier);
+            return await repository.AsQueryable().FirstOrDefaultAsync(s => s.StationIdentifier == stationIdentifier);
         }
 
         public async Task<StationCollectorRow> UpdateStationAsync(StationCollectorRow item)
