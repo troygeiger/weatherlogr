@@ -21,5 +21,6 @@ public class Registration : IRepositoryRegistration
 
         services.AddTransient<IObservationStationRepository, StationRepository>();
         services.AddTransient<IStationObservationsRepository, StationObservationRepository>();
+        services.AddTransient<IHttpDirectoryRepository, RadarHttpDirectoryRepository>();
     }
 }

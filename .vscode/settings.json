@@ -19,5 +19,6 @@
     },
     "cSpell.enableFiletypes": [
         "aspnetcorerazor"
-    ]
+    ],
+    "dotnet.defaultSolution": "WeatherGovLog.sln"
 }

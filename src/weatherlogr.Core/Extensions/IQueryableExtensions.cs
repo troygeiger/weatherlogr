@@ -22,5 +22,7 @@ namespace weatherlogr.Core.Extensions
         {
             return Task.Run(() => queryable.FirstOrDefault(predicate), cancellationToken);
         }
+
+        public static Task<T[]> ToArrayAsync<T>(this IQueryable<T> queryable) => Task.Run(queryable.ToArray);
     }
 }

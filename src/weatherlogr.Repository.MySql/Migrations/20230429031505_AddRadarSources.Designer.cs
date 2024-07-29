@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using weatherlogr.Repository.MySql;
 
@@ -10,9 +11,11 @@ using weatherlogr.Repository.MySql;
 namespace weatherlogr.Repository.MySql.Migrations
 {
     [DbContext(typeof(WeatherContext))]
-    partial class WeatherContextModelSnapshot : ModelSnapshot
+    [Migration("20230429031505_AddRadarSources")]
+    partial class AddRadarSources
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,18 +58,10 @@ namespace weatherlogr.Repository.MySql.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<bool>("Enabled")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
-
-                    b.Property<string>("PickupCronTabSchedule")
-                        .IsRequired()
-                        .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)");
 
                     b.Property<string>("Url")
                         .IsRequired()
@@ -75,7 +70,7 @@ namespace weatherlogr.Repository.MySql.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("RadarSources");
+                    b.ToTable("RadarSource");
                 });
 
             modelBuilder.Entity("weatherlogr.Repository.MySql.Models.StationCollector", b =>
@@ -208,8 +203,6 @@ namespace weatherlogr.Repository.MySql.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("RadarDate");
 
                     b.HasIndex("RadarSourceID");
 

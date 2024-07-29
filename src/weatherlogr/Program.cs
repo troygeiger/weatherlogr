@@ -5,7 +5,10 @@ using weatherlogr.Core;
 using weatherlogr.Core.DTO;
 using weatherlogr.Helpers;
 using weatherlogr.OperationFilters;
+using weatherlogr.WeatherGovRepository.Repositories;
 
+// RadarHttpDirectoryRepository repo = new();
+// var entries = await repo.GetDirectoryEntriesAsync(new Uri("https://mrms.ncep.noaa.gov/data/RIDGEII/L2/CONUS/BREF_QCD/"));
 
 var builder = WebApplication.CreateBuilder(args);
 string ?configFile;

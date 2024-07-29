@@ -11,9 +11,7 @@ namespace weatherlogr.Core.Validation
     {
         public override bool IsValid(object? value)
         {
-            string? strValue = value as string;
-
-            if (strValue is null) return false;
+            if (value is not string strValue) return false;
 
             string[] segments = strValue.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             if (segments.Length < 5 || segments.Length > 6) return false;

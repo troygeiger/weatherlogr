@@ -1,6 +1,6 @@
 [Unit]
 Description = WeatherLogR service for logging conditions to database
-After=network.target mysqld.service
+After=network.target mysql.service mysqld.service mariadb.service
 
 [Service]
 Type=notify

@@ -2,6 +2,7 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using Namespace;
 using weatherlogr.Core.Contracts.Repositories;
 using weatherlogr.Core.Contracts.Services;
 using weatherlogr.Core.Services;
@@ -23,6 +24,7 @@ public static class CoreServiceCollectionExtensions
         services.AddScoped<IObservationStationService, ObservationStationService>();
         services.AddScoped<IStationCollectorService, StationCollectorService>();
         services.AddScoped<IObservationService, ObservationService>();
+        services.AddScoped<IRadarSourcesService, RadarSourceService>();
 
 #if !DEBUG
         services.AddHostedService<ObservationCollectorService>();

@@ -16,7 +16,7 @@ public sealed class WeatherGovRestSharpFactory
 
         return new(new RestClientOptions("https://api.weather.gov")
         {
-            UserAgent = "(WeatherLogR, https://github.com/troygeiger/weatherlogr)"
+            UserAgent = InternalConstants.AgentString
         }
             , headerConfig =>
             {

@@ -18,6 +18,8 @@ public sealed class Registration : IRepositoryRegistration
     {
         mapConfig.CreateMap<StationCollector, StationCollectorRow>().ReverseMap();
         mapConfig.CreateMap<Observation, ObservationRow>().ReverseMap();
+        mapConfig.CreateMap<RadarSource, RadarSourceRow>().ReverseMap();
+        mapConfig.CreateMap<RadarIndex, RadarIndexRow>().ReverseMap();
     }
 
     public void RegisterRepositoryServices(IServiceCollection services, ConfigurationOptions configOptions)
@@ -31,5 +33,7 @@ public sealed class Registration : IRepositoryRegistration
         services.AddScoped<IStationCollectorRepository, StationCollectorRepository>();
         services.AddScoped<IConfigurationRepository, ConfigurationRepository>();
         services.AddScoped<IObservationRepository, ObservationRepository>();
+        services.AddScoped<IRadarIndexRepository, RadarIndexRepository>();
+        services.AddScoped<IRadarSourcesRepository, RadarSourcesRepository>();
     }
 }
